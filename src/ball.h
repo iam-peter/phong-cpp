@@ -5,12 +5,13 @@
 #include <Qt3DCore/qentity.h>
 #include <Qt3DCore/qtransform.h>
 
-#include <Box2D/Collision/Shapes/b2CircleShape.h>
+#include <Box2D/Box2D.h>
 
 class Ball : public Qt3DCore::QEntity
 {
 public:
     explicit Ball(Qt3DCore::QNode* parent,
+                  b2World* world,
                   QVector3D position,
                   float radius);
     ~Ball();
@@ -18,7 +19,9 @@ public:
     void setPosition(QVector3D position);
     QVector3D position() const;
 
-    b2CircleShape* shape();
+    void update();
+
+    b2Body* body() { return m_body; }
 
 private:
     Qt3DCore::QTransform* m_transform;
@@ -26,7 +29,10 @@ private:
     QVector3D m_position;
     float m_radius;
 
-    b2CircleShape* m_b2Shape;
+    b2BodyDef* m_bodyDef;
+    b2CircleShape* m_shape;
+    b2FixtureDef* m_fixtureDef;
+    b2Body* m_body;
 };
 
 #endif // BALL_H

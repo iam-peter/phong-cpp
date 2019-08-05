@@ -10,117 +10,43 @@ GameScene::GameScene(Qt3DCore::QNode* parent,
     m_ball(nullptr),
     m_leftRacket(nullptr),
     m_rightRacket(nullptr),
-
-    m_world(nullptr),
-    m_bodyBall(nullptr),
-    m_bodyLeftRacket(nullptr),
-    m_bodyRightRacket(nullptr)
+    m_world(nullptr)
 {
     m_frameAction = new Qt3DLogic::QFrameAction(this);
 
     QObject::connect(this, &Scene::activeChanged,
                      this, & GameScene::handleConnections);
 
-    float width = 26.0f;
-    float height = 18.0f;
-
-    m_topWall = new Wall(this,
-                         QVector3D(0.0f, 0.5f * height, 0.0f),
-                         QVector3D(width, 1.0f, 1.0f));
-
-    m_bottomWall = new Wall(this,
-                            QVector3D(0.0f, -0.5f * height, 0.0f),
-                            QVector3D(width, 1.0f, 1.0f));
-
-    m_ball = new Ball(this,
-                      QVector3D(0.0f, 0.0f, 0.0f),
-                      0.8f);
-
-    m_leftRacket = new Racket(this,
-                              QVector3D(-4.0f, 0.0f, 0.0f),
-                              QVector3D(1.0f, 4.0f, 1.0f));
-    m_rightRacket = new Racket(this,
-                               QVector3D(4.0f, 0.0f, 0.0f),
-                               QVector3D(1.0f, 4.0f, 1.0f));
-
-
     // Initialize Box2D stuff
     b2Vec2 gravity(0.0f, 0.0f);
     m_world = new b2World(gravity);
 
-    // Top Wall
-    {
-        b2BodyDef bodyDef;
-        bodyDef.position.Set(0.0f, 0.5f * height);
-        bodyDef.type = b2_staticBody;
+    float width = 26.0f;
+    float height = 18.0f;
 
-        b2PolygonShape shape;
-        shape.SetAsBox(width * 0.5f, 0.5f);
+    m_topWall = new Wall(this,
+                         m_world,
+                         QVector3D(0.0f, 0.5f * height, 0.0f),
+                         QVector3D(width, 1.0f, 1.0f));
 
-        b2Body* body = m_world->CreateBody(&bodyDef);
-        body->CreateFixture(&shape, 0.0f);
-    }
+    m_bottomWall = new Wall(this,
+                            m_world,
+                            QVector3D(0.0f, -0.5f * height, 0.0f),
+                            QVector3D(width, 1.0f, 1.0f));
 
-    // Bottom Wall
-    {
-        b2BodyDef bodyDef;
-        bodyDef.position.Set(0.0f, -0.5f * height);
-        bodyDef.type = b2_staticBody;
+    m_ball = new Ball(this,
+                      m_world,
+                      QVector3D(0.0f, 0.0f, 0.0f),
+                      0.8f);
 
-        b2PolygonShape shape;
-        shape.SetAsBox(width * 0.5f, 0.5f);
-
-        b2Body* body = m_world->CreateBody(&bodyDef);
-        body->CreateFixture(&shape, 0.0f);
-    }
-
-    // Ball
-    {
-        b2BodyDef bodyDef;
-        bodyDef.position.Set(0.0f, 0.0f);
-        bodyDef.type = b2_dynamicBody;
-        bodyDef.bullet = true;
-        //bodyDef.linearDamping = 0.0f;
-        //bodyDef.angularDamping = 0.01f;
-        bodyDef.gravityScale = 0.0f;
-
-        m_bodyBall = m_world->CreateBody(&bodyDef);
-
-        b2CircleShape shape;
-        shape.m_radius = 0.8f;
-
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &shape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.8f;
-
-        m_bodyBall->CreateFixture(&fixtureDef);
-    }
-
-    // Left Racket
-    {
-        b2BodyDef bodyDef;
-        bodyDef.position.Set(-4.0f, 0.0f);
-        bodyDef.type = b2_dynamicBody;
-        bodyDef.bullet = true;
-        bodyDef.linearDamping = 0.3f;
-        bodyDef.angularDamping = 0.1f;
-        bodyDef.gravityScale = 0.0f;
-
-        m_bodyLeftRacket = m_world->CreateBody(&bodyDef);
-
-        b2PolygonShape shape;
-        shape.SetAsBox(0.5f, 2.0f);
-
-        b2FixtureDef fixtureDef;
-        fixtureDef.shape = &shape;
-        fixtureDef.density = 1.0f;
-        fixtureDef.friction = 0.4f;
-        fixtureDef.restitution = 0.8f;
-
-        m_bodyLeftRacket->CreateFixture(&fixtureDef);
-    }
+    m_leftRacket = new Racket(this,
+                              m_world,
+                              QVector3D(-4.0f, 0.0f, 0.0f),
+                              QVector3D(1.0f, 4.0f, 1.0f));
+    m_rightRacket = new Racket(this,
+                               m_world,
+                               QVector3D(4.0f, 0.0f, 0.0f),
+                               QVector3D(1.0f, 4.0f, 1.0f));
 }
 
 GameScene::~GameScene()
@@ -134,24 +60,24 @@ void GameScene::keyPressed(Qt3DInput::QKeyEvent* event) {
             m_phong->previousScene();
             break;
         case Qt::Key_Up:
-            m_bodyBall->ApplyLinearImpulse(b2Vec2(0.0f, 1.0f),
-                                           m_bodyBall->GetWorldCenter(),
-                                           true);
+            m_ball->body()->ApplyLinearImpulse(b2Vec2(0.0f, 1.0f),
+                                               m_ball->body()->GetWorldCenter(),
+                                               true);
             break;
         case Qt::Key_Down:
-            m_bodyBall->ApplyLinearImpulse(b2Vec2(0.0f, -1.0f),
-                                           m_bodyBall->GetWorldCenter(),
-                                           true);
+            m_ball->body()->ApplyLinearImpulse(b2Vec2(0.0f, -1.0f),
+                                               m_ball->body()->GetWorldCenter(),
+                                               true);
             break;
         case  Qt::Key_Left:
-            m_bodyBall->ApplyLinearImpulse(b2Vec2(-1.0f, 0.0f),
-                                           m_bodyBall->GetWorldCenter(),
-                                           true);
+            m_ball->body()->ApplyLinearImpulse(b2Vec2(-1.0f, 0.0f),
+                                               m_ball->body()->GetWorldCenter(),
+                                               true);
             break;
         case Qt::Key_Right:
-            m_bodyBall->ApplyLinearImpulse(b2Vec2(1.0f, 0.0f),
-                                           m_bodyBall->GetWorldCenter(),
-                                           true);
+            m_ball->body()->ApplyLinearImpulse(b2Vec2(1.0f, 0.0f),
+                                               m_ball->body()->GetWorldCenter(),
+                                               true);
             break;
         default:
             break;
@@ -180,19 +106,10 @@ void GameScene::handleConnections(bool active) {
 void GameScene::gameLoop(float dt) {
     int32 velocityIterations = 6;
     int32 positionIterations = 2;
-
     m_world->Step(dt, velocityIterations, positionIterations);
 
-    {
-        b2Vec2 position = m_bodyBall->GetPosition();
-        float32 angle = m_bodyBall->GetAngle();
-        m_ball->setPosition(QVector3D(position.x, position.y, 0.0f));
-    }
+    m_leftRacket->update();
+    m_rightRacket->update();
 
-    {
-        b2Vec2 position = m_bodyLeftRacket->GetPosition();
-        float32 angle = m_bodyLeftRacket->GetAngle();
-        m_leftRacket->setPosition(QVector3D(position.x, position.y, 0.0f));
-        m_leftRacket->setRotation(angle);
-    }
+    m_ball->update();
 }

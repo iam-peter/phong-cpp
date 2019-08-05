@@ -36,10 +36,6 @@ private:
     Racket* m_rightRacket;
 
     b2World* m_world;
-    // temporary
-    b2Body* m_bodyBall;
-    b2Body* m_bodyLeftRacket;
-    b2Body* m_bodyRightRacket;
 };
 
 #endif // GAMESCENE_H
