@@ -23,16 +23,63 @@ MenuScene::MenuScene(Qt3DCore::QNode* parent,
     // Title
     Qt3DCore::QEntity* titleEntity = new Qt3DCore::QEntity(this);
 
-    ExtrudedTextMesh* titleMesh = new ExtrudedTextMesh(titleEntity);
-    titleMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::hcenter);
-    titleMesh->setText("P(h)ong");
-    titleMesh->setDepth(0.5f);
-    titleMesh->setDiffuse(QColor(255, 0, 255));
-    titleMesh->setFont(font);
+    {
+        // P(H)
+        Qt3DCore::QEntity* phEntity = new Qt3DCore::QEntity(titleEntity);
+
+        ExtrudedTextMesh* phMesh = new ExtrudedTextMesh(phEntity);
+        phMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::right);
+        phMesh->setText("p(h)");
+        phMesh->setDepth(0.5f);
+        phMesh->setDiffuse(QColor(255.0f, 255.0f, 255.0f));
+        phMesh->setFont(font);
+
+        Qt3DCore::QTransform* phTransform = new Qt3DCore::QTransform();
+        phTransform->setTranslation(QVector3D(-1.0f, 2.0f, 0.0f));
+
+        phEntity->addComponent(phTransform);
+    }
+
+    {
+        // O = Ball
+        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity(titleEntity);
+
+        Qt3DExtras::QCylinderMesh* mesh = new Qt3DExtras::QCylinderMesh();
+        mesh->setRadius(0.7f);
+        mesh->setLength(0.5f);
+
+        Qt3DExtras::QPhongMaterial* material = new Qt3DExtras::QPhongMaterial();
+        material->setDiffuse(QColor(255.0f, 0.0f, 0.0f));
+
+        Qt3DCore::QTransform* transform = new Qt3DCore::QTransform();
+        transform->setRotationX(90.0f);
+        transform->setTranslation(QVector3D(0.1f, 2.5f, 0.0f));
+
+        entity->addComponent(mesh);
+        entity->addComponent(material);
+        entity->addComponent(transform);
+    }
+
+    {
+        // NG
+        Qt3DCore::QEntity* ngEntity = new Qt3DCore::QEntity(titleEntity);
+
+        ExtrudedTextMesh* ngMesh = new ExtrudedTextMesh(ngEntity);
+        ngMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::left);
+        ngMesh->setText("ng");
+        ngMesh->setDepth(0.5f);
+        ngMesh->setDiffuse(QColor(255.0f, 255.0f, 255.0f));
+        ngMesh->setFont(font);
+
+        Qt3DCore::QTransform* ngTransform = new Qt3DCore::QTransform();
+        ngTransform->setTranslation(QVector3D(1.0f, 2.0f, 0.0f));
+
+        ngEntity->addComponent(ngTransform);
+    }
 
     Qt3DCore::QTransform* titleTransform = new Qt3DCore::QTransform();
     titleTransform->setScale(2.0f);
-    titleTransform->setTranslation(QVector3D(0.0f, 2.0f, 0.0f));
+    titleTransform->setTranslation(QVector3D(0.8f, 0.0f, 0.0f));
 
     titleEntity->addComponent(titleTransform);
 

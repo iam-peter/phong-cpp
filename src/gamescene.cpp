@@ -21,8 +21,8 @@ GameScene::GameScene(Qt3DCore::QNode* parent,
     b2Vec2 gravity(0.0f, 0.0f);
     m_world = new b2World(gravity);
 
-    float width = 26.0f;
-    float height = 18.0f;
+    float width = 30.0f;
+    float height = 20.0f;
 
     m_topWall = new Wall(this,
                          m_world,
