@@ -29,6 +29,12 @@ IntroScene::IntroScene(Qt3DCore::QNode* parent, Phong* phong):
 
     titleEntity->addComponent(titleTransform);
 
+
+    // Font
+    QFont fontNote;
+    fontNote.setFamily("monospace");
+    fontNote.setPointSize(10.0f);
+
     // Note
     Qt3DCore::QEntity* noteEntity = new Qt3DCore::QEntity(this);
 
@@ -37,6 +43,7 @@ IntroScene::IntroScene(Qt3DCore::QNode* parent, Phong* phong):
     noteMesh->setText("[Press any key]");
     noteMesh->setDepth(0.5f);
     noteMesh->setDiffuse(QColor(255.0f, 255.0f, 255.0f));
+    noteMesh->setFont(fontNote);
 
     Qt3DCore::QTransform* noteTransform = new Qt3DCore::QTransform();
     noteTransform->setTranslation(QVector3D(0.0f, -4.0f, 0.0f));
@@ -49,8 +56,6 @@ IntroScene::~IntroScene()
 
 void IntroScene::keyPressed(Qt3DInput::QKeyEvent* event)
 {
-    qDebug() << Q_FUNC_INFO;
-
     if (event->key() != Qt::Key_Escape) {
         m_phong->nextScene(m_followingScene);
     }
