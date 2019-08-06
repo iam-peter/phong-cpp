@@ -7,6 +7,7 @@ CONFIG += c++17
 
 SOURCES += \
         ball.cpp \
+        extrudedtextmesh.cpp \
         gamescene.cpp \
         introscene.cpp \
         main.cpp \
@@ -18,6 +19,7 @@ SOURCES += \
 
 HEADERS += \
     ball.h \
+    extrudedtextmesh.h \
     gamescene.h \
     introscene.h \
     menuscene.h \

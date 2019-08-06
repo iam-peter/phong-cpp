@@ -1,7 +1,7 @@
 #include "menuscene.h"
 #include "phong.h"
+#include "extrudedtextmesh.h"
 
-#include <Qt3DExtras/QExtrudedTextMesh>
 #include <Qt3DExtras/QCuboidMesh>
 #include <Qt3DExtras/QCylinderMesh>
 #include <Qt3DExtras/QPhongMaterial>
@@ -15,43 +15,44 @@ MenuScene::MenuScene(Qt3DCore::QNode* parent,
     m_menuScenes(menuScenes),
     m_currentItem(0)
 {
+    // Font
+    QFont font;
+    font.setCapitalization(QFont::AllUppercase);
+    font.setFamily("monospace");
+
     // Title
     Qt3DCore::QEntity* titleEntity = new Qt3DCore::QEntity(this);
 
-    Qt3DExtras::QExtrudedTextMesh* titleMesh = new Qt3DExtras::QExtrudedTextMesh();
+    ExtrudedTextMesh* titleMesh = new ExtrudedTextMesh(titleEntity);
+    titleMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::hcenter);
     titleMesh->setText("P(h)ong");
     titleMesh->setDepth(0.5f);
+    titleMesh->setDiffuse(QColor(255, 0, 255));
+    titleMesh->setFont(font);
 
     Qt3DCore::QTransform* titleTransform = new Qt3DCore::QTransform();
     titleTransform->setScale(2.0f);
     titleTransform->setTranslation(QVector3D(0.0f, 2.0f, 0.0f));
 
-    Qt3DExtras::QPhongMaterial* titleMaterial = new Qt3DExtras::QPhongMaterial();
-    titleMaterial->setDiffuse(QColor(255, 0, 255));
-
-    titleEntity->addComponent(titleMesh);
     titleEntity->addComponent(titleTransform);
-    titleEntity->addComponent(titleMaterial);
 
     // Create menu items
-    Qt3DExtras::QPhongMaterial* itemMaterial = new Qt3DExtras::QPhongMaterial();
-    itemMaterial->setDiffuse(QColor(255, 255, 255));
-
     for (unsigned i = 0u; i != m_menuScenes.size(); ++i) {
         Scene* scene = m_menuScenes[i];
 
         Qt3DCore::QEntity* itemEntity = new Qt3DCore::QEntity(this);
 
-        Qt3DExtras::QExtrudedTextMesh* itemMesh = new Qt3DExtras::QExtrudedTextMesh();
+        ExtrudedTextMesh* itemMesh = new ExtrudedTextMesh(itemEntity);
+        itemMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::hcenter);
         itemMesh->setText(scene->name());
         itemMesh->setDepth(0.5f);
+        itemMesh->setDiffuse(QColor(255, 255, 255));
+        itemMesh->setFont(font);
 
         Qt3DCore::QTransform* itemTransform = new Qt3DCore::QTransform();
         itemTransform->setTranslation(QVector3D(0.0f, i * -2.0f, 0.0f));
 
-        itemEntity->addComponent(itemMesh);
         itemEntity->addComponent(itemTransform);
-        itemEntity->addComponent(itemMaterial);
     }
 
     // Create item indicator
