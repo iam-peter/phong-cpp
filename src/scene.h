@@ -22,18 +22,18 @@ public:
     virtual void keyPressed(Qt3DInput::QKeyEvent* event);
     virtual void keyReleased(Qt3DInput::QKeyEvent* event);
 
-    void setPosition(QVector3D position);
+    void setPosition(const QVector3D& position);
     QVector3D position() const;
 
-    void setName(QString name);
+    void setName(const QString& name);
     QString name() const;
 
     void setActive(bool active);
     bool active() const;
 
 signals:
-    void positionChanged(QVector3D);
-    void nameChanged(QString);
+    void positionChanged(const QVector3D&);
+    void nameChanged(const QString&);
     void activeChanged(bool);
 
 protected:

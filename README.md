@@ -3,7 +3,7 @@
 ## Checkout
 
 ```
-git clone --recurse-submodules git@github.com:iam-peter/phong-cpp.git
+git clone --recurse-submodules https://github.com/iam-peter/phong-cpp.git
 ```
 
 ## Build

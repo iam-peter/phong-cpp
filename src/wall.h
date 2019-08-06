@@ -11,8 +11,8 @@ class Wall : public Qt3DCore::QEntity
 public:
     explicit Wall(Qt3DCore::QNode* parent,
                   b2World* world,
-                  QVector3D position,
-                  QVector3D scale);
+                  const QVector3D& position,
+                  const QVector3D& scale);
     ~Wall();
 
     void update();

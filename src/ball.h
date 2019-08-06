@@ -12,12 +12,15 @@ class Ball : public Qt3DCore::QEntity
 public:
     explicit Ball(Qt3DCore::QNode* parent,
                   b2World* world,
-                  QVector3D position,
+                  const QVector3D& position,
                   float radius);
     ~Ball();
 
-    void setPosition(QVector3D position);
+    void setPosition(const QVector3D& position);
     QVector3D position() const;
+
+    void setRotation(float rotation);
+    float rotation() const;
 
     void update();
 
@@ -28,6 +31,7 @@ private:
 
     QVector3D m_position;
     float m_radius;
+    float m_rotation; // Around z-axis
 
     b2BodyDef* m_bodyDef;
     b2CircleShape* m_shape;

@@ -26,7 +26,7 @@ public:
     void nextScene(Scene* scene);
     void previousScene();
 
-    void transformCamera(QVector3D position);
+    void transformCamera(const QVector3D& position);
 
 public slots:
     void keyPressed(Qt3DInput::QKeyEvent* event);

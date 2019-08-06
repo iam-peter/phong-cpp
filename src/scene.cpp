@@ -20,8 +20,6 @@ Scene::~Scene()
 
 void Scene::keyPressed(Qt3DInput::QKeyEvent* event)
 {
-    qDebug() << Q_FUNC_INFO;
-
     if (event->key() == Qt::Key_Escape) {
         m_phong->previousScene();
     }
@@ -31,11 +29,10 @@ void Scene::keyPressed(Qt3DInput::QKeyEvent* event)
 
 void Scene::keyReleased(Qt3DInput::QKeyEvent* event)
 {
-    qDebug() << Q_FUNC_INFO;
     event->setAccepted(true);
 }
 
-void Scene::setPosition(QVector3D position)
+void Scene::setPosition(const QVector3D& position)
 {
     m_position = position;
     emit positionChanged(position);
@@ -46,7 +43,7 @@ QVector3D Scene::position() const
     return m_position;
 }
 
-void Scene::setName(QString name)
+void Scene::setName(const QString& name)
 {
     m_name = name;
     emit nameChanged(name);

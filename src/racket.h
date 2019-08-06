@@ -12,14 +12,14 @@ class Racket : public Qt3DCore::QEntity
 public:
     explicit Racket(Qt3DCore::QNode* parent,
                     b2World* world,
-                    QVector3D position,
-                    QVector3D scale);
+                    const QVector3D& position,
+                    const QVector3D& scale);
     ~Racket();
 
-    void setPosition(QVector3D position);
+    void setPosition(const QVector3D& position);
     QVector3D position() const;
 
-    void setScale(QVector3D scale);
+    void setScale(const QVector3D& scale);
     QVector3D scale() const;
 
     void setRotation(float rotation);

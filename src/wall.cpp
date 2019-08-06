@@ -6,8 +6,8 @@
 
 Wall::Wall(Qt3DCore::QNode* parent,
            b2World* world,
-           QVector3D position,
-           QVector3D scale):
+           const QVector3D& position,
+           const QVector3D& scale):
     Qt3DCore::QEntity(parent),
     m_position(position),
     m_scale(scale),

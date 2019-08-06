@@ -83,8 +83,6 @@ Phong::~Phong()
 
 void Phong::nextScene(Scene* scene)
 {
-    qDebug() << Q_FUNC_INFO;
-
     Scene* nextScene = scene;
 
     if (m_sceneStack.size()) {
@@ -117,15 +115,13 @@ void Phong::previousScene()
     }
 }
 
-void Phong::transformCamera(QVector3D position) {
+void Phong::transformCamera(const QVector3D& position) {
     m_camera->setViewCenter(position);
     m_camera->setPosition(position + QVector3D(0.0f, 0.0f, 34.0f));
 }
 
 void Phong::keyPressed(Qt3DInput::QKeyEvent* event)
 {
-    qDebug() << Q_FUNC_INFO << " " << event->key();
-
     if (m_sceneStack.empty())
         return;
 
@@ -134,8 +130,6 @@ void Phong::keyPressed(Qt3DInput::QKeyEvent* event)
 
 void Phong::keyReleased(Qt3DInput::QKeyEvent* event)
 {
-    qDebug() << Q_FUNC_INFO << " " << event->key();
-
     if (m_sceneStack.empty())
         return;
 

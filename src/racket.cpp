@@ -7,8 +7,8 @@
 
 Racket::Racket(Qt3DCore::QNode* parent,
                b2World* world,
-               QVector3D position,
-               QVector3D scale):
+               const QVector3D& position,
+               const QVector3D& scale):
     Qt3DCore::QEntity(parent),
     m_transform(nullptr),
     m_position(position),
@@ -60,7 +60,7 @@ Racket::Racket(Qt3DCore::QNode* parent,
 Racket::~Racket()
 {}
 
-void Racket::setPosition(QVector3D position) {
+void Racket::setPosition(const QVector3D& position) {
     m_position = position;
     m_transform->setTranslation(m_position);
 }
@@ -69,7 +69,7 @@ QVector3D Racket::position() const {
     return m_position;
 }
 
-void Racket::setScale(QVector3D scale) {
+void Racket::setScale(const QVector3D& scale) {
     m_scale = scale;
     m_transform->setScale3D(m_scale);
 }

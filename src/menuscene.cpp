@@ -82,8 +82,6 @@ MenuScene::~MenuScene()
 
 void MenuScene::keyPressed(Qt3DInput::QKeyEvent* event)
 {
-    qDebug() << Q_FUNC_INFO;
-
     switch (event->key())
     {
         case Qt::Key_Escape:
