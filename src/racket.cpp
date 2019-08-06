@@ -1,5 +1,6 @@
 #include "racket.h"
 
+#include <QtMath>
 #include <QGeometry>
 #include <Qt3DExtras/QCuboidMesh>
 #include <Qt3DExtras/QPhongMaterial>
@@ -38,7 +39,7 @@ Racket::Racket(Qt3DCore::QNode* parent,
     m_bodyDef = new b2BodyDef();
     m_bodyDef->position.Set(m_position.x(), m_position.y());
     m_bodyDef->type = b2_dynamicBody;
-    m_bodyDef->bullet = true;
+    //m_bodyDef->bullet = true;
     m_bodyDef->linearDamping = 0.3f;
     m_bodyDef->angularDamping = 0.1f;
     m_bodyDef->gravityScale = 0.0f;
@@ -90,5 +91,5 @@ void Racket::update() {
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
     setPosition(QVector3D(position.x, position.y, 0.0f));
-    setRotation(angle);
+    setRotation(qRadiansToDegrees(angle));
 }
