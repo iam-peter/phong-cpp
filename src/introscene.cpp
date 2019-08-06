@@ -10,7 +10,7 @@ IntroScene::IntroScene(Qt3DCore::QNode* parent, Phong* phong):
 {
     // Font
     QFont font;
-    //font.setCapitalization(QFont::AllUppercase);
+    font.setCapitalization(QFont::AllUppercase);
     font.setFamily("monospace");
     font.setPointSize(20.0f);
 

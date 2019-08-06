@@ -15,6 +15,7 @@ Phong::Phong(Qt3DExtras::Qt3DWindow* view):
     m_rootEntity(nullptr),
     m_camera(nullptr),
     m_lightEntity(nullptr),
+    m_lightTransform(nullptr),
     m_introScene(nullptr),
     m_menuScene(nullptr)
 {
@@ -37,11 +38,11 @@ Phong::Phong(Qt3DExtras::Qt3DWindow* view):
     light->setColor("white");
     light->setIntensity(1);
 
-    Qt3DCore::QTransform* lightTransform = new Qt3DCore::QTransform(lightEntity);
-    lightTransform->setTranslation(m_camera->position());
+    m_lightTransform = new Qt3DCore::QTransform(lightEntity);
+    m_lightTransform->setTranslation(m_camera->position());
 
     lightEntity->addComponent(light);
-    lightEntity->addComponent(lightTransform);
+    lightEntity->addComponent(m_lightTransform);
 
     Qt3DInput::QKeyboardDevice* keyboardDevice = new Qt3DInput::QKeyboardDevice(m_rootEntity);
     Qt3DInput::QKeyboardHandler* keyboardHandler = new Qt3DInput::QKeyboardHandler(m_rootEntity);
@@ -118,6 +119,8 @@ void Phong::previousScene()
 void Phong::transformCamera(const QVector3D& position) {
     m_camera->setViewCenter(position);
     m_camera->setPosition(position + QVector3D(0.0f, 0.0f, 34.0f));
+
+    m_lightTransform->setTranslation(m_camera->position());
 }
 
 void Phong::keyPressed(Qt3DInput::QKeyEvent* event)

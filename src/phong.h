@@ -37,6 +37,7 @@ private:
     Qt3DCore::QEntity* m_rootEntity;
     Qt3DRender::QCamera* m_camera;
     Qt3DCore::QEntity* m_lightEntity;
+    Qt3DCore::QTransform* m_lightTransform;
 
     std::vector<Scene*> m_sceneStack;
 
@@ -45,7 +46,6 @@ private:
     GameScene* m_gameScene;
 
     Scene* m_settingsScene;
-
 };
 
 #endif // PHONG_H
