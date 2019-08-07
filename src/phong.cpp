@@ -17,7 +17,13 @@ Phong::Phong(Qt3DExtras::Qt3DWindow* view):
     m_lightEntity(nullptr),
     m_lightTransform(nullptr),
     m_introScene(nullptr),
-    m_menuScene(nullptr)
+    m_menuScene(nullptr),
+    m_gameScene(nullptr),
+    m_settingsScene(nullptr),
+    m_animationGroup(nullptr),
+    m_cameraPositionAnimation(nullptr),
+    m_cameraViewCenterAnimation(nullptr),
+    m_lightTransformAnimation(nullptr)
 {
     m_input = new Qt3DInput::QInputAspect();
     view->registerAspect(m_input);
@@ -57,21 +63,31 @@ Phong::Phong(Qt3DExtras::Qt3DWindow* view):
     // Initialize scenes
     m_settingsScene = new Scene(m_rootEntity, this);
     m_settingsScene->setName("Settings");
-    m_settingsScene->setPosition(QVector3D(00.0f, 30.0f, 0.0f));
+    m_settingsScene->setPosition(QVector3D(00.0f, 40.0f, 0.0f));
 
     m_gameScene = new GameScene(m_rootEntity, this);
     m_gameScene->setName("Play");
-    m_gameScene->setPosition(QVector3D(30.0f, 0.0f, 0.0f));
+    m_gameScene->setPosition(QVector3D(40.0f, 0.0f, 0.0f));
 
     m_menuScene = new MenuScene(m_rootEntity, this, {m_gameScene, m_settingsScene});
     m_menuScene->setPosition(QVector3D(0.0f, 0.0f, 0.0f));
 
     m_introScene = new IntroScene(m_rootEntity, this);
-    m_introScene->setPosition(QVector3D(-30.0f, 0.0f, 0.0f));
+    m_introScene->setPosition(QVector3D(-40.0f, 0.0f, 0.0f));
     m_introScene->setFollowingScene(m_menuScene);
 
     // Set root object of the view/window
     view->setRootEntity(m_rootEntity);
+
+    // Setup animations
+    m_animationGroup = new QParallelAnimationGroup();
+    m_cameraPositionAnimation = new QPropertyAnimation(m_camera, "position");
+    m_cameraViewCenterAnimation = new QPropertyAnimation(m_camera, "viewCenter");
+    m_lightTransformAnimation = new QPropertyAnimation(m_lightTransform, "translation");
+
+    m_animationGroup->addAnimation(m_cameraPositionAnimation);
+    m_animationGroup->addAnimation(m_cameraViewCenterAnimation);
+    m_animationGroup->addAnimation(m_lightTransformAnimation);
 
     // Push first scene to stack
     nextScene(m_introScene);
@@ -109,18 +125,29 @@ void Phong::previousScene()
     // Set remaining scene as current
     if (m_sceneStack.size()) {
         Scene* prevScene = m_sceneStack.back();
-        prevScene->setActive(true);
 
         // Transform camera
         transformCamera(prevScene->position());
+
+        prevScene->setActive(true);
     }
 }
 
 void Phong::transformCamera(const QVector3D& position) {
-    m_camera->setViewCenter(position);
-    m_camera->setPosition(position + QVector3D(0.0f, 0.0f, 34.0f));
+    // Stop potentially running animation
+    if (m_animationGroup->state() == QAbstractAnimation::State::Running)
+        m_animationGroup->stop();
 
-    m_lightTransform->setTranslation(m_camera->position());
+    m_cameraViewCenterAnimation->setStartValue(m_camera->viewCenter());
+    m_cameraViewCenterAnimation->setEndValue(position);
+
+    m_cameraPositionAnimation->setStartValue(m_camera->position());
+    m_cameraPositionAnimation->setEndValue(position + QVector3D(0.0f, 0.0f, 34.0f));
+
+    m_lightTransformAnimation->setStartValue(m_camera->position());
+    m_lightTransformAnimation->setEndValue(position + QVector3D(0.0f, 0.0f, 34.0f));
+
+    m_animationGroup->start();
 }
 
 void Phong::keyPressed(Qt3DInput::QKeyEvent* event)

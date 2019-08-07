@@ -9,6 +9,9 @@
 #include <Qt3DExtras/qt3dwindow.h>
 #include <Qt3DExtras/QTorusMesh>
 
+#include <QParallelAnimationGroup>
+#include <QPropertyAnimation>
+
 // forward declarations
 class Scene;
 class IntroScene;
@@ -44,8 +47,12 @@ private:
     IntroScene* m_introScene;
     MenuScene* m_menuScene;
     GameScene* m_gameScene;
-
     Scene* m_settingsScene;
+
+    QParallelAnimationGroup* m_animationGroup;
+    QPropertyAnimation* m_cameraPositionAnimation;
+    QPropertyAnimation* m_cameraViewCenterAnimation;
+    QPropertyAnimation* m_lightTransformAnimation;
 };
 
 #endif // PHONG_H
