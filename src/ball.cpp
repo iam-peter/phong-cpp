@@ -35,7 +35,7 @@ Ball::Ball(Qt3DCore::QNode* parent,
         mesh->setLength(0.5f);
 
         Qt3DExtras::QPhongMaterial* material = new Qt3DExtras::QPhongMaterial();
-        material->setDiffuse(QColor(255, 255, 0));
+        material->setDiffuse(QColor(255.0f, 255.0f, 0.0f));
 
         Qt3DCore::QTransform* transform = new Qt3DCore::QTransform();
         transform->setRotationX(90.0f);

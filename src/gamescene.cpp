@@ -1,6 +1,11 @@
 #include "gamescene.h"
 #include "phong.h"
 
+#include <Qt3DCore/qentity.h>
+#include <Qt3DCore/qtransform.h>
+#include <Qt3DExtras/QPlaneMesh>
+#include <Qt3DExtras/QPhongMaterial>
+
 GameScene::GameScene(Qt3DCore::QNode* parent,
                      Phong* phong):
     Scene(parent, phong),
@@ -23,6 +28,48 @@ GameScene::GameScene(Qt3DCore::QNode* parent,
 
     float width = 30.0f;
     float height = 20.0f;
+
+    float goalWidth = 4.0f;
+
+    {
+        // Left plane
+        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity(this);
+
+        Qt3DExtras::QPlaneMesh* mesh = new Qt3DExtras::QPlaneMesh();
+        mesh->setWidth(goalWidth);
+        mesh->setHeight(height);
+
+        Qt3DExtras::QPhongMaterial* material = new Qt3DExtras::QPhongMaterial();
+        material->setDiffuse(QColor(100.0f, 100.0f, 100.0f));
+
+        Qt3DCore::QTransform* transform = new Qt3DCore::QTransform();
+        transform->setTranslation(QVector3D((width * -0.5f) + (goalWidth * 0.5f), 0.0f, -0.5f));
+        transform->setRotationX(90.0f);
+
+        entity->addComponent(mesh);
+        entity->addComponent(material);
+        entity->addComponent(transform);
+    }
+
+    {
+        // Right plane
+        Qt3DCore::QEntity* entity = new Qt3DCore::QEntity(this);
+
+        Qt3DExtras::QPlaneMesh* mesh = new Qt3DExtras::QPlaneMesh();
+        mesh->setWidth(goalWidth);
+        mesh->setHeight(height);
+
+        Qt3DExtras::QPhongMaterial* material = new Qt3DExtras::QPhongMaterial();
+        material->setDiffuse(QColor(100.0f, 100.0f, 100.0f));
+
+        Qt3DCore::QTransform* transform = new Qt3DCore::QTransform();
+        transform->setTranslation(QVector3D((width * 0.5f) + (goalWidth * -0.5f), 0.0f, -0.5f));
+        transform->setRotationX(90.0f);
+
+        entity->addComponent(mesh);
+        entity->addComponent(material);
+        entity->addComponent(transform);
+    }
 
     m_topWall = new Wall(this,
                          m_world,
@@ -102,7 +149,7 @@ void GameScene::handleConnections(bool active) {
 
 void GameScene::gameLoop(float dt) {
     int32 velocityIterations = 6;
-    int32 positionIterations = 2;
+    int32 positionIterations = 6;
     m_world->Step(dt, velocityIterations, positionIterations);
 
     m_leftRacket->update();
