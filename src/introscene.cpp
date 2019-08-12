@@ -18,7 +18,7 @@ IntroScene::IntroScene(Qt3DCore::QNode* parent, Phong* phong):
     Qt3DCore::QEntity* titleEntity = new Qt3DCore::QEntity(this);
 
     ExtrudedTextMesh* titleMesh = new ExtrudedTextMesh(titleEntity);
-    titleMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::hcenter);
+    titleMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::HCenter);
     titleMesh->setText("YOOO! Title here");
     titleMesh->setDepth(0.5f);
     titleMesh->setDiffuse(QColor(255.0f, 0.0f, 255.0f));
@@ -39,7 +39,7 @@ IntroScene::IntroScene(Qt3DCore::QNode* parent, Phong* phong):
     Qt3DCore::QEntity* noteEntity = new Qt3DCore::QEntity(this);
 
     ExtrudedTextMesh* noteMesh = new ExtrudedTextMesh(noteEntity);
-    noteMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::hcenter);
+    noteMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::HCenter);
     noteMesh->setText("[Press any key]");
     noteMesh->setDepth(0.5f);
     noteMesh->setDiffuse(QColor(255.0f, 255.0f, 255.0f));

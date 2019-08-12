@@ -37,24 +37,24 @@ Racket::Racket(Qt3DCore::QNode* parent,
 
     // Create the box2d bodyDef, shape, fixtureDef and body
     m_bodyDef = new b2BodyDef();
-    m_bodyDef->position.Set(m_position.x(), m_position.y());
-    m_bodyDef->type = b2_dynamicBody;
-    //m_bodyDef->bullet = true;
+    m_bodyDef->type = b2_kinematicBody;
     m_bodyDef->linearDamping = 0.3f;
-    m_bodyDef->angularDamping = 0.1f;
     m_bodyDef->gravityScale = 0.0f;
+    m_bodyDef->fixedRotation = true;
 
     m_shape = new b2PolygonShape();
     m_shape->SetAsBox(m_scale.x() * 0.5f, m_scale.y() * 0.5f);
 
     m_fixtureDef = new b2FixtureDef();
     m_fixtureDef->shape = m_shape;
-    m_fixtureDef->density = 1.0f;
+    m_fixtureDef->density = 10.0f;
     m_fixtureDef->friction = 0.4f;
     m_fixtureDef->restitution = 0.8f;
 
     m_body = world->CreateBody(m_bodyDef);
     m_body->CreateFixture(m_fixtureDef);
+    m_body->SetTransform(b2Vec2(m_position.x(), m_position.y()),
+                         qDegreesToRadians(m_rotation));
 }
 
 Racket::~Racket()
@@ -63,6 +63,8 @@ Racket::~Racket()
 void Racket::setPosition(const QVector3D& position) {
     m_position = position;
     m_transform->setTranslation(m_position);
+    m_body->SetTransform(b2Vec2(m_position.x(), m_position.y()),
+                         qDegreesToRadians(m_rotation));
 }
 
 QVector3D Racket::position() const {
@@ -72,6 +74,7 @@ QVector3D Racket::position() const {
 void Racket::setScale(const QVector3D& scale) {
     m_scale = scale;
     m_transform->setScale3D(m_scale);
+    m_shape->SetAsBox(m_scale.x() * 0.5f, m_scale.y() * 0.5f);
 }
 
 QVector3D Racket::scale() const {
@@ -81,6 +84,8 @@ QVector3D Racket::scale() const {
 void Racket::setRotation(float rotation) {
     m_rotation = rotation;
     m_transform->setRotationZ(m_rotation);
+    m_body->SetTransform(b2Vec2(m_position.x(), m_position.y()),
+                         qDegreesToRadians(m_rotation));
 }
 
 float Racket::rotation() const {
@@ -90,6 +95,12 @@ float Racket::rotation() const {
 void Racket::update() {
     b2Vec2 position = m_body->GetPosition();
     float32 angle = m_body->GetAngle();
-    setPosition(QVector3D(position.x, position.y, 0.0f));
-    setRotation(qRadiansToDegrees(angle));
+
+    // Set position
+    m_position = QVector3D(position.x, position.y, 0.0f);
+    m_transform->setTranslation(m_position);
+
+    // Set rotation
+    m_rotation = qRadiansToDegrees(angle);
+    m_transform->setRotationZ(m_rotation);
 }

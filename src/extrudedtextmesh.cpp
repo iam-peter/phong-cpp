@@ -5,8 +5,8 @@ ExtrudedTextMesh::ExtrudedTextMesh(Qt3DCore::QNode* parent):
     m_textMesh(nullptr),
     m_transform(nullptr),
     m_material(nullptr),
-    m_horizontalAlignment(HorizontalAlignment::left),
-    m_verticalAlignment(VerticalAlignment::bottom),
+    m_horizontalAlignment(HorizontalAlignment::Left),
+    m_verticalAlignment(VerticalAlignment::Bottom),
     m_font(QFont()),
     m_text(QString()),
     m_depth(0.5f),
@@ -164,16 +164,16 @@ void ExtrudedTextMesh::layout()
     m_width = m_textMesh->geometry()->maxExtent().x() - m_textMesh->geometry()->minExtent().x();
     m_height = m_textMesh->geometry()->maxExtent().y() - m_textMesh->geometry()->minExtent().y();
 
-    if (m_horizontalAlignment == HorizontalAlignment::right)
+    if (m_horizontalAlignment == HorizontalAlignment::Right)
         m_position.setX(-m_width);
-    else if (m_horizontalAlignment == HorizontalAlignment::hcenter)
+    else if (m_horizontalAlignment == HorizontalAlignment::HCenter)
         m_position.setX(m_width * -0.5f);
     else
         m_position.setX(0.0f);
 
-    if (m_verticalAlignment == VerticalAlignment::top)
+    if (m_verticalAlignment == VerticalAlignment::Top)
         m_position.setY(-m_height);
-    else if (m_verticalAlignment == VerticalAlignment::vcenter)
+    else if (m_verticalAlignment == VerticalAlignment::VCenter)
         m_position.setY(m_height * -0.5f);
     else
         m_position.setY(0.0f);

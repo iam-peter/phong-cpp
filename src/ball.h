@@ -4,6 +4,7 @@
 #include <QVector3D>
 #include <Qt3DCore/qentity.h>
 #include <Qt3DCore/qtransform.h>
+#include <Qt3DExtras/QCylinderMesh>
 
 #include <Box2D/Box2D.h>
 
@@ -19,6 +20,9 @@ public:
     void setPosition(const QVector3D& position);
     QVector3D position() const;
 
+    void setRadius(float radius);
+    float radius() const;
+
     void setRotation(float rotation);
     float rotation() const;
 
@@ -28,6 +32,7 @@ public:
 
 private:
     Qt3DCore::QTransform* m_transform;
+    Qt3DExtras::QCylinderMesh* m_mesh;
 
     QVector3D m_position;
     float m_radius;

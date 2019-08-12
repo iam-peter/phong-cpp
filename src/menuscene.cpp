@@ -28,7 +28,7 @@ MenuScene::MenuScene(Qt3DCore::QNode* parent,
         Qt3DCore::QEntity* phEntity = new Qt3DCore::QEntity(titleEntity);
 
         ExtrudedTextMesh* phMesh = new ExtrudedTextMesh(phEntity);
-        phMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::right);
+        phMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::Right);
         phMesh->setText("p(h)");
         phMesh->setDepth(0.5f);
         phMesh->setDiffuse(QColor(255.0f, 255.0f, 255.0f));
@@ -65,7 +65,7 @@ MenuScene::MenuScene(Qt3DCore::QNode* parent,
         Qt3DCore::QEntity* ngEntity = new Qt3DCore::QEntity(titleEntity);
 
         ExtrudedTextMesh* ngMesh = new ExtrudedTextMesh(ngEntity);
-        ngMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::left);
+        ngMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::Left);
         ngMesh->setText("ng");
         ngMesh->setDepth(0.5f);
         ngMesh->setDiffuse(QColor(255.0f, 255.0f, 255.0f));
@@ -90,7 +90,7 @@ MenuScene::MenuScene(Qt3DCore::QNode* parent,
         Qt3DCore::QEntity* itemEntity = new Qt3DCore::QEntity(this);
 
         ExtrudedTextMesh* itemMesh = new ExtrudedTextMesh(itemEntity);
-        itemMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::hcenter);
+        itemMesh->setHorizontalAlignment(ExtrudedTextMesh::HorizontalAlignment::HCenter);
         itemMesh->setText(scene->name());
         itemMesh->setDepth(0.5f);
         itemMesh->setDiffuse(QColor(255, 255, 255));

@@ -13,6 +13,7 @@ SOURCES += \
         main.cpp \
         menuscene.cpp \
         phong.cpp \
+        player.cpp \
         racket.cpp \
         scene.cpp \
         wall.cpp
@@ -24,6 +25,7 @@ HEADERS += \
     introscene.h \
     menuscene.h \
     phong.h \
+    player.h \
     racket.h \
     scene.h \
     wall.h

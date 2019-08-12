@@ -28,8 +28,8 @@ class ExtrudedTextMesh : public Qt3DCore::QEntity
     Q_PROPERTY(float m_shininess READ shininess WRITE setShininess NOTIFY shininessChanged)
 
 public:
-    enum HorizontalAlignment{ left, hcenter, right };
-    enum VerticalAlignment{ top, vcenter, bottom };
+    enum HorizontalAlignment{ Left, HCenter, Right };
+    enum VerticalAlignment{ Top, VCenter, Bottom };
 
     ExtrudedTextMesh(Qt3DCore::QNode* parent = nullptr);
     ~ExtrudedTextMesh();

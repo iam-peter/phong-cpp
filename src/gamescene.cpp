@@ -85,14 +85,15 @@ GameScene::GameScene(Qt3DCore::QNode* parent,
                       m_world,
                       QVector3D(0.0f, 0.0f, 0.0f),
                       0.8f);
+    m_ball->body()->SetLinearVelocity(b2Vec2(-10.0f, 10.0f));
 
     m_leftRacket = new Racket(this,
                               m_world,
-                              QVector3D(-4.0f, 0.0f, 0.0f),
+                              QVector3D(-(width * 0.5f - goalWidth), 0.0f, 0.0f),
                               QVector3D(1.0f, 4.0f, 1.0f));
     m_rightRacket = new Racket(this,
                                m_world,
-                               QVector3D(4.0f, 0.0f, 0.0f),
+                               QVector3D((width * 0.5f - goalWidth), 0.0f, 0.0f),
                                QVector3D(1.0f, 4.0f, 1.0f));
 }
 
@@ -104,17 +105,16 @@ void GameScene::keyPressed(Qt3DInput::QKeyEvent* event) {
         case Qt::Key_Escape:
             m_phong->previousScene();
             break;
+
         case Qt::Key_Up:
-            m_ball->body()->ApplyLinearImpulse(b2Vec2(0.0f, 1.0f),
-                                               m_ball->body()->GetWorldCenter(),
-                                               true);
+            m_leftRacket->body()->SetLinearVelocity(b2Vec2(0.0f, 20.0f));
+            m_rightRacket->body()->SetLinearVelocity(b2Vec2(0.0f, 20.0f));
             break;
         case Qt::Key_Down:
-            m_ball->body()->ApplyLinearImpulse(b2Vec2(0.0f, -1.0f),
-                                               m_ball->body()->GetWorldCenter(),
-                                               true);
+            m_leftRacket->body()->SetLinearVelocity(b2Vec2(0.0f, -20.0f));
+            m_rightRacket->body()->SetLinearVelocity(b2Vec2(0.0f, -20.0f));
             break;
-        case  Qt::Key_Left:
+        case Qt::Key_Left:
             m_ball->body()->ApplyLinearImpulse(b2Vec2(-1.0f, 0.0f),
                                                m_ball->body()->GetWorldCenter(),
                                                true);
@@ -124,6 +124,11 @@ void GameScene::keyPressed(Qt3DInput::QKeyEvent* event) {
                                                m_ball->body()->GetWorldCenter(),
                                                true);
             break;
+
+        case Qt::Key_R: // Reset ball
+            m_ball->setPosition(QVector3D(0.0f, 0.0f, 0.0f));
+            m_ball->body()->SetLinearVelocity(b2Vec2(-10.0f, 10.0f));
+            break;
         default:
             break;
     }
@@ -132,6 +137,17 @@ void GameScene::keyPressed(Qt3DInput::QKeyEvent* event) {
 }
 
 void GameScene::keyReleased(Qt3DInput::QKeyEvent* event) {
+
+    switch (event->key()) {
+    case Qt::Key_Up:
+    case Qt::Key_Down:
+        m_leftRacket->body()->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+        m_rightRacket->body()->SetLinearVelocity(b2Vec2(0.0f, 0.0f));
+        break;
+    default:
+        break;
+    }
+
     event->setAccepted(true);
 }
 
