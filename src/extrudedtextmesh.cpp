@@ -99,6 +99,11 @@ void ExtrudedTextMesh::setText(const QString& text)
     emit textChanged(text);
 }
 
+void ExtrudedTextMesh::setText(unsigned text)
+{
+    setText(QString::number(text));
+}
+
 QString ExtrudedTextMesh::text() const
 {
     return m_text;

@@ -58,7 +58,7 @@ Ball::Ball(Qt3DCore::QNode* parent,
 
     m_fixtureDef = new b2FixtureDef();
     m_fixtureDef->shape = m_shape;
-    m_fixtureDef->density = 0.0f;
+    m_fixtureDef->density = 0.0f; // TODO without density and friciton there won't be ball rotation
     m_fixtureDef->friction = 0.0f;
     m_fixtureDef->restitution = 1.0f;
 

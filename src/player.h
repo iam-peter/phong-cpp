@@ -9,7 +9,9 @@
 class Player : public QObject
 {
     Q_OBJECT
+    Q_PROPERTY(QString m_name READ name WRITE setName NOTIFY nameChanged)
     Q_PROPERTY(Racket* m_racket READ racket WRITE setRacket NOTIFY racketChanged)
+    Q_PROPERTY(unsigned m_score READ score WRITE setScore NOTIFY scoreChanged)
 
 public:
     enum Command {
@@ -26,12 +28,22 @@ public:
     void setRacket(Racket* racket);
     Racket* racket() const;
 
+    void setName(const QString& name);
+    QString name() const;
+
+    void setScore(unsigned score);
+    unsigned score() const;
+
 signals:
+    void nameChanged(const QString&);
     void racketChanged(Racket*);
+    void scoreChanged(unsigned);
 
 private:
     std::vector<int> m_keyBinding;
+    QString m_name;
     Racket* m_racket;
+    unsigned m_score;
 };
 
 #endif // PLAYER_H

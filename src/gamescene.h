@@ -5,6 +5,7 @@
 #include "wall.h"
 #include "ball.h"
 #include "racket.h"
+#include "player.h"
 
 #include <QFrameAction>
 
@@ -22,8 +23,12 @@ public:
     void keyPressed(Qt3DInput::QKeyEvent* event);
     void keyReleased(Qt3DInput::QKeyEvent* event);
 
-    void handleConnections(bool active);
+    void startGameLoop();
+    void stopGameLoop();
+
     void gameLoop(float dt);
+
+    void scored(Player* player);
 
 private:
     Qt3DLogic::QFrameAction* m_frameAction;
@@ -36,6 +41,13 @@ private:
     Racket* m_rightRacket;
 
     b2World* m_world;
+
+    float m_stageWidth;
+    float m_stageHeight;
+    float m_goalDepth;
+
+    Player* m_left;
+    Player* m_right;
 };
 
 #endif // GAMESCENE_H

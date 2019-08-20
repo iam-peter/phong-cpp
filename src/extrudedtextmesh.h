@@ -44,6 +44,7 @@ public:
     QFont font() const;
 
     void setText(const QString& text);
+    void setText(unsigned text);
     QString text() const;
 
     void setDepth(float depth);
